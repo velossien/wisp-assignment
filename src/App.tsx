@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/app.scss';
 import { Launch } from './services/types';
-
 import Loader from './components/Loader';
-
 import { getLaunches } from './services/api';
 
 const App = () => {
@@ -13,8 +11,10 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasPrevPage, setHasPrevPage] = useState<boolean>(false);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [sortOrder, setSortOrder] = useState<string>('desc');
 
-  const getLaunchData = async (pageNumber: number) => {
+  const getLaunchData = async (pageNumber: number, sortingOrder: string) => {
     let apiDone = false;
     setTimeout(() => {
       if (!apiDone) {
@@ -26,7 +26,7 @@ const App = () => {
       setError(false);
     }
 
-    const response = await getLaunches(pageNumber);
+    const response = await getLaunches(pageNumber, sortingOrder);
     apiDone = true;
 
     if (response.error) {
@@ -35,36 +35,35 @@ const App = () => {
       setLaunches(response.launches);
       setHasNextPage(response.hasNextPage);
       setHasPrevPage(response.hasPrevPage);
+      setTotalPages(response.totalPages);
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    getLaunchData(1);
+    getLaunchData(1, sortOrder);
   }, []);
 
-  const getPrevPage = () => {
-    if (page > 1) {
-      const newPage = page - 1;
-      getLaunchData(newPage);
+  const getPage = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      getLaunchData(newPage, sortOrder);
       setPage(newPage);
     }
   };
 
-  const getNextPage = () => {
-    const newPage = page + 1;
-    getLaunchData(newPage);
-    setPage(newPage);
-  };
-
   const goToPresskit = (presskitUrl: string | null) => {
-    console.log(presskitUrl)
-    if(presskitUrl) {
+    if (presskitUrl) {
       window.open(presskitUrl);
     }
   };
 
+  const reSortLaunchDateOrder = () => {
+    const order = sortOrder === 'asc' ? 'desc' : 'asc'
+    setSortOrder(order)
+
+    getLaunchData(page, order);
+  };
 
   return (
     <div className="container">
@@ -72,8 +71,26 @@ const App = () => {
         <Loader />
       }
 
-      {launches.length > 0 &&
+      {error && 
+        <div className="error-container">
+          An error occurred - please try again.
+          <span
+            className="error-close"
+            onClick={() => setError(false)}
+          >
+            &times;
+          </span>
+        </div>
+      }
+
+      {!loading && launches.length > 0 &&
         <div>
+          <button
+            onClick={() => reSortLaunchDateOrder()}
+          >
+            Sort {sortOrder === 'asc' ? 'Descending' : 'Ascending'}
+          </button>
+
           <table>
             <caption>SpaceX Launches</caption>
             <thead>
@@ -98,12 +115,13 @@ const App = () => {
               ))}
             </tbody>
           </table>
-
-          {hasPrevPage && <button onClick={() => getPrevPage()}>Previous</button>}
-          {hasNextPage && <button onClick={() => getNextPage()}>Next</button>}
+          {page !== 1 && <button onClick={() => getPage(1)}>First Page</button>}
+          {hasPrevPage && <button onClick={() => getPage(page - 1)}>Previous</button>}
+          {hasNextPage && <button onClick={() => getPage(page + 1)}>Next</button>}
+          {page !== totalPages && <button onClick={() => getPage(totalPages)}>Last Page</button>}
         </div>
       }
-    </div>
+    </div >
   )
 };
 

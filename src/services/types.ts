@@ -12,13 +12,15 @@ export interface LaunchesResponse {
   launches: Launch[];
   hasPrevPage: boolean;
   hasNextPage: boolean;
+  totalPages: number;
   error: boolean;
 }
 
-export interface SpaceXResponse {
+export interface ApiResponse {
   data: {
     docs: Launch[];
     hasPrevPage: boolean;
     hasNextPage: boolean;
+    totalPages: number;
   }
 }

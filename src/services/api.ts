@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { LaunchesResponse, SpaceXResponse } from './types';
+import { LaunchesResponse, ApiResponse } from './types';
 
-export const getLaunches = async(page: number): Promise<LaunchesResponse> => {
+export const getLaunches = async(page: number, sortOrder: string): Promise<LaunchesResponse> => {
   try {
-    const response: SpaceXResponse = await axios.post("https://api.spacexdata.com/v5/launches/query", {
+    const response: ApiResponse = await axios.post("https://api.spacexdata.com/v5/launches/query", {
       options: {
         page: page,
+        sort: {
+          "date_utc": sortOrder
+       }
       }
     });
 
@@ -13,6 +16,7 @@ export const getLaunches = async(page: number): Promise<LaunchesResponse> => {
       launches: response.data.docs,
       hasPrevPage: response.data.hasPrevPage,
       hasNextPage: response.data.hasNextPage,
+      totalPages: response.data.totalPages,
       error: false
     }
   } catch(e) {
@@ -20,8 +24,8 @@ export const getLaunches = async(page: number): Promise<LaunchesResponse> => {
       launches: [],
       hasPrevPage: false,
       hasNextPage: false,
+      totalPages: 0,
       error: true
     };
   }
 };
-
