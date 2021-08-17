@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './App.scss';
+import './styles/app.scss';
 import { Launch } from './services/types';
+
+import Loader from './components/Loader';
 
 import { getLaunches } from './services/api';
 
@@ -11,12 +13,19 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLaunchData = async () => {
-    setLoading(true);
+    let apiDone = false;
+    setTimeout(() => {
+      if (!apiDone) {
+        setLoading(true);
+      }
+    }, 500);
+
     if (error) {
       setError(false);
     }
 
     const response = await getLaunches(page);
+    apiDone = true;
 
     if (response.error) {
       setError(true);
@@ -34,7 +43,7 @@ const App = () => {
   return (
     <div className="container">
       {loading &&
-        <div className="loader"><div></div><div></div><div></div><div></div></div>
+        <Loader />
       }
 
       {launches.length > 0 &&
