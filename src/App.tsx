@@ -70,64 +70,68 @@ const App = () => {
     return parsedDate.getUTCFullYear();
   };
 
-  return (
-    <div className="container">
-      {loading &&
+  if (loading) {
+    return (
+      <div className="loader-container">
         <Loader />
-      }
+      </div>
+    )
+  } else {
+    return (
+      <div className="container">
+        {error &&
+          <div className="error-container">
+            An error occurred - please try again.
+            <span
+              className="error-close"
+              onClick={() => setError(false)}
+            >
+              &times;
+            </span>
+          </div>
+        }
 
-      {error && 
-        <div className="error-container">
-          An error occurred - please try again.
-          <span
-            className="error-close"
-            onClick={() => setError(false)}
-          >
-            &times;
-          </span>
-        </div>
-      }
+        {launches.length > 0 &&
+          <div>
+            <button
+              onClick={() => reSortLaunchDateOrder()}
+            >
+              Sort {sortOrder === 'asc' ? 'Descending' : 'Ascending'}
+            </button>
 
-      {!loading && launches.length > 0 &&
-        <div>
-          <button
-            onClick={() => reSortLaunchDateOrder()}
-          >
-            Sort {sortOrder === 'asc' ? 'Descending' : 'Ascending'}
-          </button>
-
-          <table>
-            <caption>SpaceX Launches</caption>
-            <thead>
-              <tr>
-                <th>Flight Number</th>
-                <th>Launch Year</th>
-                <th>Rocket Name</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {launches.map((launch: Launch) => (
-                <tr
-                  key={launch.flight_number}
-                  onClick={() => goToPresskit(launch.links.presskit)}
-                >
-                  <td>{launch.flight_number}</td>
-                  <td>{formatDate(launch.date_utc)}</td>
-                  <td>{launch.name}</td>
-                  <td>{launch.details}</td>
+            <table>
+              <caption>SpaceX Launches</caption>
+              <thead>
+                <tr>
+                  <th>Flight Number</th>
+                  <th>Launch Year</th>
+                  <th>Rocket Name</th>
+                  <th>Details</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {page !== 1 && <button onClick={() => getPage(1)}>First Page</button>}
-          {hasPrevPage && <button onClick={() => getPage(page - 1)}>Previous</button>}
-          {hasNextPage && <button onClick={() => getPage(page + 1)}>Next</button>}
-          {page !== totalPages && <button onClick={() => getPage(totalPages)}>Last Page</button>}
-        </div>
-      }
-    </div >
-  )
+              </thead>
+              <tbody>
+                {launches.map((launch: Launch) => (
+                  <tr
+                    key={launch.flight_number}
+                    onClick={() => goToPresskit(launch.links.presskit)}
+                  >
+                    <td>{launch.flight_number}</td>
+                    <td>{formatDate(launch.date_utc)}</td>
+                    <td>{launch.name}</td>
+                    <td>{launch.details}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {page !== 1 && <button onClick={() => getPage(1)}>First Page</button>}
+            {hasPrevPage && <button onClick={() => getPage(page - 1)}>Previous</button>}
+            {hasNextPage && <button onClick={() => getPage(page + 1)}>Next</button>}
+            {page !== totalPages && <button onClick={() => getPage(totalPages)}>Last Page</button>}
+          </div>
+        }
+      </div>
+    )
+  }
 };
 
 export default App;
