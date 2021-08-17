@@ -3,7 +3,9 @@ export interface Launch {
   date_utc: string;
   name: string;
   details: string;
-  presskit: string | null;
+  links: {
+    presskit: string | null;
+  }
 }
 
 export interface LaunchesResponse {

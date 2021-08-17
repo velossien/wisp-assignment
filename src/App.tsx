@@ -58,6 +58,13 @@ const App = () => {
     setPage(newPage);
   };
 
+  const goToPresskit = (presskitUrl: string | null) => {
+    console.log(presskitUrl)
+    if(presskitUrl) {
+      window.open(presskitUrl);
+    }
+  };
+
 
   return (
     <div className="container">
@@ -79,7 +86,10 @@ const App = () => {
             </thead>
             <tbody>
               {launches.map((launch: Launch) => (
-                <tr key={launch.flight_number}>
+                <tr
+                  key={launch.flight_number}
+                  onClick={() => goToPresskit(launch.links.presskit)}
+                >
                   <td>{launch.flight_number}</td>
                   <td>{launch.date_utc}</td>
                   <td>{launch.name}</td>
