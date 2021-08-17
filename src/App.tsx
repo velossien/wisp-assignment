@@ -65,6 +65,11 @@ const App = () => {
     getLaunchData(page, order);
   };
 
+  const formatDate = (date: string) => {
+    const parsedDate = new Date(date);
+    return parsedDate.getUTCFullYear();
+  };
+
   return (
     <div className="container">
       {loading &&
@@ -96,7 +101,7 @@ const App = () => {
             <thead>
               <tr>
                 <th>Flight Number</th>
-                <th>Date (UTC)</th>
+                <th>Launch Year</th>
                 <th>Rocket Name</th>
                 <th>Details</th>
               </tr>
@@ -108,7 +113,7 @@ const App = () => {
                   onClick={() => goToPresskit(launch.links.presskit)}
                 >
                   <td>{launch.flight_number}</td>
-                  <td>{launch.date_utc}</td>
+                  <td>{formatDate(launch.date_utc)}</td>
                   <td>{launch.name}</td>
                   <td>{launch.details}</td>
                 </tr>
