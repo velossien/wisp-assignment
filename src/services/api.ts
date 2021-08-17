@@ -10,12 +10,16 @@ export const getLaunches = async(page: number): Promise<LaunchesResponse> => {
     });
 
     return {
-      launches: response?.data?.docs,
+      launches: response.data.docs,
+      hasPrevPage: response.data.hasPrevPage,
+      hasNextPage: response.data.hasNextPage,
       error: false
     }
   } catch(e) {
     return { 
       launches: [],
+      hasPrevPage: false,
+      hasNextPage: false,
       error: true
     };
   }

@@ -11,8 +11,10 @@ const App = () => {
   const [page, setPage] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasPrevPage, setHasPrevPage] = useState<boolean>(false);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
-  const getLaunchData = async () => {
+  const getLaunchData = async (pageNumber: number) => {
     let apiDone = false;
     setTimeout(() => {
       if (!apiDone) {
@@ -24,21 +26,38 @@ const App = () => {
       setError(false);
     }
 
-    const response = await getLaunches(page);
+    const response = await getLaunches(pageNumber);
     apiDone = true;
 
     if (response.error) {
       setError(true);
     } else {
       setLaunches(response.launches);
+      setHasNextPage(response.hasNextPage);
+      setHasPrevPage(response.hasPrevPage);
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    getLaunchData();
+    getLaunchData(1);
   }, []);
+
+  const getPrevPage = () => {
+    if (page > 1) {
+      const newPage = page - 1;
+      getLaunchData(newPage);
+      setPage(newPage);
+    }
+  };
+
+  const getNextPage = () => {
+    const newPage = page + 1;
+    getLaunchData(newPage);
+    setPage(newPage);
+  };
+
 
   return (
     <div className="container">
@@ -47,27 +66,32 @@ const App = () => {
       }
 
       {launches.length > 0 &&
-        <table>
-          <caption>SpaceX Launches</caption>
-          <thead>
-            <tr>
-              <th>Flight Number</th>
-              <th>Date (UTC)</th>
-              <th>Rocket Name</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {launches.map((launch: Launch) => (
-              <tr key={launch.flight_number}>
-                <td>{launch.flight_number}</td>
-                <td>{launch.date_utc}</td>
-                <td>{launch.name}</td>
-                <td>{launch.details}</td>
+        <div>
+          <table>
+            <caption>SpaceX Launches</caption>
+            <thead>
+              <tr>
+                <th>Flight Number</th>
+                <th>Date (UTC)</th>
+                <th>Rocket Name</th>
+                <th>Details</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {launches.map((launch: Launch) => (
+                <tr key={launch.flight_number}>
+                  <td>{launch.flight_number}</td>
+                  <td>{launch.date_utc}</td>
+                  <td>{launch.name}</td>
+                  <td>{launch.details}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {hasPrevPage && <button onClick={() => getPrevPage()}>Previous</button>}
+          {hasNextPage && <button onClick={() => getNextPage()}>Next</button>}
+        </div>
       }
     </div>
   )

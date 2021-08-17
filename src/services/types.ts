@@ -8,11 +8,15 @@ export interface Launch {
 
 export interface LaunchesResponse {
   launches: Launch[];
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
   error: boolean;
 }
 
 export interface SpaceXResponse {
   data: {
     docs: Launch[];
+    hasPrevPage: boolean;
+    hasNextPage: boolean;
   }
 }
