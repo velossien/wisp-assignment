@@ -92,42 +92,70 @@ const App = () => {
         }
 
         {launches.length > 0 &&
-          <div>
-            <button
-              onClick={() => reSortLaunchDateOrder()}
-            >
-              Sort {sortOrder === 'asc' ? 'Descending' : 'Ascending'}
-            </button>
-
-            <table>
-              <caption>SpaceX Launches</caption>
-              <thead>
-                <tr>
-                  <th>Flight Number</th>
-                  <th>Launch Year</th>
-                  <th>Rocket Name</th>
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {launches.map((launch: Launch) => (
-                  <tr
-                    key={launch.flight_number}
-                    onClick={() => goToPresskit(launch.links.presskit)}
-                  >
-                    <td>{launch.flight_number}</td>
-                    <td>{formatDate(launch.date_utc)}</td>
-                    <td>{launch.name}</td>
-                    <td>{launch.details}</td>
+          <>
+            <div className="table-header">
+              <h1 className="display-font">
+                SpaceX Launches
+              </h1>
+              <div className="button-container">
+                <button
+                  className={`button ${page !== 1 ? '' : 'disabled'}`}
+                  onClick={() => getPage(1)}
+                >
+                  &#171;
+                </button>
+                <button
+                  className={`button ${hasPrevPage ? '' : 'disabled'}`}
+                  onClick={() => getPage(page - 1)}
+                >
+                  &lsaquo;
+                </button>
+                <button
+                  className={`button ${hasNextPage ? '' : 'disabled'}`}
+                  onClick={() => getPage(page + 1)}
+                >
+                  &rsaquo;
+                </button>
+                <button
+                  className={`button ${page !== totalPages ? '' : 'disabled'}`}
+                  onClick={() => getPage(totalPages)}
+                >
+                  &#187;
+                </button>
+              </div>
+            </div>
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="flight-number-col">Flight #</th>
+                    <th className="date-col">Launch Year
+                      <span
+                        onClick={() => reSortLaunchDateOrder()}>
+                        {sortOrder === 'asc' ? '\u25B2' : '\u25BC'}
+                      </span>
+                    </th>
+                    <th className="name-col">Rocket Name</th>
+                    <th className="details-col">Details</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            {page !== 1 && <button onClick={() => getPage(1)}>First Page</button>}
-            {hasPrevPage && <button onClick={() => getPage(page - 1)}>Previous</button>}
-            {hasNextPage && <button onClick={() => getPage(page + 1)}>Next</button>}
-            {page !== totalPages && <button onClick={() => getPage(totalPages)}>Last Page</button>}
-          </div>
+                </thead>
+                <tbody>
+                  {launches.map((launch: Launch) => (
+                    <tr
+                      key={launch.flight_number}
+                      onClick={() => goToPresskit(launch.links.presskit)}
+                      className={launch.links.presskit ? "clickable-row" : ""}
+                    >
+                      <td>{launch.flight_number}</td>
+                      <td>{formatDate(launch.date_utc)}</td>
+                      <td>{launch.name}</td>
+                      <td>{launch.details}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         }
       </div>
     )

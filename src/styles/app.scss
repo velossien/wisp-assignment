@@ -8,9 +8,45 @@
 }
 
 .container {
-  display: flex;
-  justify-content: center;
+  width: 90vw;
   height: 100vh;
+  margin: auto;
+  padding-bottom: 3rem;
+}
+
+.display-font { 
+  font-family: $display-font-family;
+  font-size: 2.5rem;
+
+  @media all and (max-width: $small-width) {
+    font-size: 2rem;
+  }
+}
+
+.button-container {
+  button + button {
+    margin-left: 5px;
+  }
+
+  .button {
+    background-color: $light-text-color;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 5px;
+  
+    &:hover {
+      background-color: $primary-color;
+      color: $light-text-color;
+      transition: color 300ms, background-color 300ms;
+    }
+  }
+
+  .disabled {
+    background-color: $disabled-button-color;
+    pointer-events: none;
+  }
 }
 
 .error-container {
@@ -21,12 +57,83 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $error-color;
+  background-color: $secondary-color;
   color: $light-text-color;
 
   .error-close {
     position: absolute;
     right: 10px;
     cursor: pointer;
+  }
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  width: 90vw;
+  background-color: $light-text-color;
+
+  @media all and (max-width: $small-width) {
+    flex-direction: column;
+    padding-bottom: 1rem;
+  }
+}
+
+.table-container {
+  overflow-x: scroll;
+  padding-top: 100px;
+
+  @media all and (max-width: $small-width) {
+    padding-top: 125px;
+  }
+
+  table {
+    width: 90vw;
+    border: 1px solid $primary-color;
+    border-collapse: collapse;
+    min-width: 700px;
+    table-layout: fixed;
+    margin-bottom: 2rem;
+  
+    .clickable-row {
+      cursor: pointer;
+      background-color: rgba($secondary-color, 0.2);
+
+      &:hover {
+        background-color: $secondary-color;
+        color: $light-text-color;
+      }
+    }
+  
+    th {
+      background-color: $primary-color;
+      color: $light-text-color;
+    }
+  
+    th, td, tr {
+      text-align: left;
+      border: 1px solid $primary-color;
+      padding: 10px;
+    }
+
+    .flight-number-col {
+      width: 70px;
+    }
+
+
+    .date-col {
+      width: 150px;
+  
+      span {
+        cursor: pointer;
+        margin-left: 1rem;
+      }
+    }
+
+    .name-col {
+      width: 150px;
+    }
   }
 }
