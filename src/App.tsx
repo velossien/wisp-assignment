@@ -128,13 +128,13 @@ const App = () => {
               <table>
                 <thead>
                   <tr>
-                    <th className="flight-number-col">Flight #</th>
-                    <th className="date-col">Launch Year
+                    <th className="flight-number-col">Flight #
                       <span
                         onClick={() => reSortLaunchDateOrder()}>
                         {sortOrder === 'asc' ? '\u25B2' : '\u25BC'}
                       </span>
                     </th>
+                    <th className="date-col">Launch Year</th>
                     <th className="name-col">Rocket Name</th>
                     <th className="details-col">Details</th>
                   </tr>

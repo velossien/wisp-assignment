@@ -119,17 +119,16 @@
     }
 
     .flight-number-col {
-      width: 70px;
-    }
+      width: 90px;
 
-
-    .date-col {
-      width: 150px;
-  
       span {
         cursor: pointer;
-        margin-left: 1rem;
+        margin-left: 0.5rem;
       }
+    }
+
+    .date-col {
+      width: 110px;
     }
 
     .name-col {

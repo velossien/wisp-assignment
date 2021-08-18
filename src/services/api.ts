@@ -7,7 +7,7 @@ export const getLaunches = async(page: number, sortOrder: string): Promise<Launc
       options: {
         page: page,
         sort: {
-          "date_utc": sortOrder
+          "flight_number": sortOrder
        }
       }
     });
