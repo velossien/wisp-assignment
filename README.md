@@ -13,7 +13,7 @@ It includes the following functionality:
 - Run `yarn start` to run it in development mode
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Running the Project as a Production Build
+## Running the App as a Production Build
 - Clone the repo locally
 - Run `yarn install`
 - Run `yarn build` to create an optimized production build that can then be served.
@@ -25,7 +25,7 @@ It includes the following functionality:
 - Originally I put the sortable header on the "Launch Year" `th` tag, but then I thought it would be confusing as the order would be sorting by utc date, but that column only includes the year.  I noticed the flight numbers went in order of the launch dates, so I put the sorting on `Flight #` instead.
 - Rows with presskits will have a light red tint to them and will open the presskit into a new window.
 
-## Things I Would Do With More Time
+## Things I Would Do If I Continued Working On This App
 - **Testing!** With more time I would be adding in some `react-testing-library` or `jest` tests.
    - Things to test:
       - Any shared visual components (easy to test with a jest snapshot test) (e.g Loader)
