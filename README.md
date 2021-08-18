@@ -7,20 +7,19 @@ It includes the following functionality:
 - Launches with presskit are highlighted with red and open the presskit in a new window.
 
 
-## Available Scripts
-In the project directory, you can run:
-### `yarn start`
-Runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Running the App in Development Mode
+- Clone the repo locally
+- Run `yarn install`
+- Run `yarn start` to run it in development mode
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `yarn build`
-Creates an optimized production build that can then be served.
-After building the production build, run:
-```
-yarn global add serve
-serve -s build
-```
-And go to [http://localhost:5000](http://localhost:5000) to view it in the browser.
+## Running the Project as a Production Build
+- Clone the repo locally
+- Run `yarn install`
+- Run `yarn build` to create an optimized production build that can then be served.
+- Run `yarn global add serve` (if you don't have the library and want to serve the app)
+- Run `serve -s build`
+- Go to [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 ## Notes
 - Originally I put the sortable header on the "Launch Year" `th` tag, but then I thought it would be confusing as the order would be sorting by utc date, but that column only includes the year.  I noticed the flight numbers went in order of the launch dates, so I put the sorting on `Flight #` instead.
