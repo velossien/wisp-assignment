@@ -16,8 +16,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ### `yarn build`
 Creates an optimized production build that can then be served.
 After building the production build, run:
-`yarn global add serve`
-`serve -s build`
+```
+yarn global add serve
+serve -s build
+```
 And go to [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 ## Notes
@@ -33,3 +35,9 @@ And go to [http://localhost:5000](http://localhost:5000) to view it in the brows
   - A more responsive layout for mobile phones. For now the table scrolls on the x-axis.
   - Make the table header fixed, so it's easier to understand what you are looking at in the table.
   - A better way to note which rows have a presskit.
+
+## Recording of Basic Functionality
+https://user-images.githubusercontent.com/13773557/129830072-b9c9462d-6ba9-4518-9ab6-422bd512bd48.mov
+
+
+
